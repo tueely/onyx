@@ -12,6 +12,11 @@ camera.attachControl(canvas, true);
 const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 light.intensity = 0.7;
 
+// Call engine.resize() when the window is resized
+window.addEventListener("resize", function () {
+    engine.resize();
+});
+
 // Player setup from player.js
 const player = createPlayer(scene);
 camera.parent = player;
