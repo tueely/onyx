@@ -33,14 +33,18 @@ generatePlatforms(scene, player);
 engine.runRenderLoop(function () {
     scene.render();
 
+    // Reset player's rotation to prevent toppling
+    resetPlayerRotation(player);
+
     // Handle player input and movement from player.js
     updatePlayer(player);
-
+    
     // Check if player has fallen into the "lava"
     if (player.position.y < 0) {
         player.position = new BABYLON.Vector3(0, 5, 0);  // Reset player if they fall
     }
 });
+
 
 window.addEventListener("resize", function () {
     engine.resize();
