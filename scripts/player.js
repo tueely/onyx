@@ -25,6 +25,7 @@ function resetPlayerVelocity(player) {
 }
 
 
+
 function resetPlayerRotation(player) {
     // Get the current angular velocity
     let angularVelocity = player.physicsImpostor.getAngularVelocity();
