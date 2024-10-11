@@ -17,21 +17,16 @@ function createPlayer(scene) {
 function resetPlayerRotation(player) {
     // Get the current angular velocity
     let angularVelocity = player.physicsImpostor.getAngularVelocity();
-    
-    // Limit the X and Z rotation to prevent tipping over
-    angularVelocity.x = 0;
-    angularVelocity.z = 0;
-    
-    // Cap the player's linear velocity to prevent high-speed collisions
-    let linearVelocity = player.physicsImpostor.getLinearVelocity();
-    if (linearVelocity.length() > 10) {
-        linearVelocity = linearVelocity.scale(0.9);  // Slow down the velocity
-        player.physicsImpostor.setLinearVelocity(linearVelocity);
-    }
 
-    // Apply the reset angular velocity to the physics impostor
+    // Lock rotation completely
+    angularVelocity.x = 0;
+    angularVelocity.y = 0; // You can leave this if you want to lock the Y-axis too
+    angularVelocity.z = 0;
+
+    // Apply the reset angular velocity to prevent spinning
     player.physicsImpostor.setAngularVelocity(angularVelocity);
 }
+
 
 
 
