@@ -51,7 +51,7 @@ window.addEventListener("keyup", function(event) {
 });
 function updatePlayer(player) {
     const speed = 0.2;
-    const jumpForce = 8;
+    const jumpForce = 10;  // Adjusted jump force
     
     // WASD movement
     if (inputMap["w"]) player.moveWithCollisions(new BABYLON.Vector3(0, 0, speed));
@@ -59,9 +59,10 @@ function updatePlayer(player) {
     if (inputMap["a"]) player.moveWithCollisions(new BABYLON.Vector3(-speed, 0, 0));
     if (inputMap["d"]) player.moveWithCollisions(new BABYLON.Vector3(speed, 0, 0));
 
-    // Check for jump input (spacebar) and only jump if the player is grounded
+    // Ensure jumping works only if the player is grounded
     if (inputMap[" "] && player.physicsImpostor.getLinearVelocity().y === 0) {
         player.physicsImpostor.applyImpulse(new BABYLON.Vector3(0, jumpForce, 0), player.getAbsolutePosition());
     }
 }
+
 
