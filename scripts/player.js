@@ -1,4 +1,4 @@
-function createPlayer(scene) {
+    function createPlayer(scene) {
     // Create a cylinder for the player, which is more stable
     const player = BABYLON.MeshBuilder.CreateCylinder("player", {height: 2, diameter: 1}, scene);
     player.position = new BABYLON.Vector3(0, 5, 0);  // Start above platforms
@@ -11,6 +11,17 @@ function createPlayer(scene) {
     }, scene);
 
     return player;
+}
+
+function resetPlayerVelocity(player) {
+    let linearVelocity = player.physicsImpostor.getLinearVelocity();
+
+    // Cap the player's linear velocity to avoid high-speed collisions
+    const maxSpeed = 10;
+    if (linearVelocity.length() > maxSpeed) {
+        linearVelocity = linearVelocity.scale(0.9);  // Slow down the velocity
+        player.physicsImpostor.setLinearVelocity(linearVelocity);
+    }
 }
 
 
