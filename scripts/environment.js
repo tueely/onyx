@@ -1,9 +1,12 @@
+// Ensure platformCount is defined
+let platformCount = 0;
+
+// Function to generate a room where platforms will be placed
 function generateRoom(scene) {
     // Room dimensions
     const roomWidth = 30;
     const roomHeight = 15;
     const roomDepth = 100;
-    let platformCount = 0;  // Initialize platform count
 
     // Create walls, floor, and ceiling
     const floor = BABYLON.MeshBuilder.CreateBox("floor", { width: roomWidth, height: 1, depth: roomDepth }, scene);
@@ -26,13 +29,14 @@ function generateRoom(scene) {
     backWall.position.z = -roomDepth / 2; // Back wall at z = -roomDepth/2
     backWall.checkCollisions = true;
 
-    return floor; // Return the floor object for later use
+    return floor; // Return the floor object for reference
 }
 
+// Function to generate platforms within the room
 function generatePlatforms(scene, player) {
     const platformSize = {width: 5, height: 1, depth: 5};
     let platforms = [];
-    
+
     const roomFloor = generateRoom(scene); // Generate the room
 
     // Create initial platform
@@ -52,6 +56,7 @@ function generatePlatforms(scene, player) {
     });
 }
 
+// Function to create individual platforms
 function createPlatform(scene, size, position, platforms) {
     const platform = BABYLON.MeshBuilder.CreateBox("platform" + platformCount++, size, scene);
     platform.position = position;
