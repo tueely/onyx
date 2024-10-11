@@ -3,6 +3,7 @@ function generateRoom(scene) {
     const roomWidth = 30;
     const roomHeight = 15;
     const roomDepth = 100;
+    let platformCount = 0;  // Initialize platform count
 
     // Create walls, floor, and ceiling
     const floor = BABYLON.MeshBuilder.CreateBox("floor", { width: roomWidth, height: 1, depth: roomDepth }, scene);
