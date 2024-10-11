@@ -2,12 +2,17 @@
 // Player creation and movement handling
 
 function createPlayer(scene) {
-    // Create a simple box for the player
     const player = BABYLON.MeshBuilder.CreateBox("player", {height: 2, width: 1, depth: 1}, scene);
     player.position = new BABYLON.Vector3(0, 5, 0);  // Start above platforms
 
     // Setup player physics
     player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0 }, scene);
+
+    // Prevent player from toppling over by freezing rotation
+    player.physicsImpostor.sleepAngularVelocityLimit = 1;  // Prevent spinning due to angular velocity
+    player.physicsImpostor.setAngularVelocity(BABYLON.Vector3.Zero());  // Reset angular velocity
+    player.physicsImpostor.freezeRotation();  // Completely freeze rotation
+
     return player;
 }
 
