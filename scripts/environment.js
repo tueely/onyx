@@ -8,29 +8,37 @@ function generateRoom(scene) {
     const roomHeight = 15;
     const roomDepth = 100;
 
-    // Create walls, floor, and ceiling
+    // Create floor
     const floor = BABYLON.MeshBuilder.CreateBox("floor", { width: roomWidth, height: 1, depth: roomDepth }, scene);
     floor.position.y = 0; // Floor at y = 0
     floor.checkCollisions = true;
 
+    // Create ceiling
     const ceiling = BABYLON.MeshBuilder.CreateBox("ceiling", { width: roomWidth, height: 1, depth: roomDepth }, scene);
     ceiling.position.y = roomHeight; // Ceiling at y = roomHeight
     ceiling.checkCollisions = true;
 
+    // Create walls
     const leftWall = BABYLON.MeshBuilder.CreateBox("leftWall", { width: 1, height: roomHeight, depth: roomDepth }, scene);
-    leftWall.position.x = -roomWidth / 2; // Left wall at x = -roomWidth/2
+    leftWall.position.x = -roomWidth / 2;
     leftWall.checkCollisions = true;
 
     const rightWall = BABYLON.MeshBuilder.CreateBox("rightWall", { width: 1, height: roomHeight, depth: roomDepth }, scene);
-    rightWall.position.x = roomWidth / 2; // Right wall at x = roomWidth/2
+    rightWall.position.x = roomWidth / 2;
     rightWall.checkCollisions = true;
 
     const backWall = BABYLON.MeshBuilder.CreateBox("backWall", { width: roomWidth, height: roomHeight, depth: 1 }, scene);
-    backWall.position.z = -roomDepth / 2; // Back wall at z = -roomDepth/2
+    backWall.position.z = -roomDepth / 2;
     backWall.checkCollisions = true;
 
-    return floor; // Return the floor object for reference
+    // Add a front wall as well to enclose the room
+    const frontWall = BABYLON.MeshBuilder.CreateBox("frontWall", { width: roomWidth, height: roomHeight, depth: 1 }, scene);
+    frontWall.position.z = roomDepth / 2;
+    frontWall.checkCollisions = true;
+
+    return floor;
 }
+
 
 // Function to generate platforms within the room
 function generatePlatforms(scene, player) {
