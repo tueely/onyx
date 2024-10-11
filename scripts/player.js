@@ -1,26 +1,36 @@
 function createPlayer(scene) {
-    // Create a simple box for the player
     const player = BABYLON.MeshBuilder.CreateBox("player", {height: 2, width: 1, depth: 1}, scene);
     player.position = new BABYLON.Vector3(0, 5, 0);  // Start above platforms
 
-    // Setup player physics
-    player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, friction: 0.2, restitution: 0 }, scene);
+    // Setup player physics with lower restitution to prevent bouncing
+    player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.BoxImpostor, { 
+        mass: 1, 
+        friction: 0.2, 
+        restitution: 0  // Reduce bounciness
+    }, scene);
 
     return player;
 }
 
-// In the game loop, reset angular velocity to prevent toppling
 function resetPlayerRotation(player) {
     // Get the current angular velocity
     let angularVelocity = player.physicsImpostor.getAngularVelocity();
-
-    // Reset the X and Z components to 0 to prevent tipping over (but allow Y for camera rotation)
+    
+    // Limit the X and Z rotation to prevent tipping over
     angularVelocity.x = 0;
     angularVelocity.z = 0;
+    
+    // Cap the player's linear velocity to prevent high-speed collisions
+    let linearVelocity = player.physicsImpostor.getLinearVelocity();
+    if (linearVelocity.length() > 10) {
+        linearVelocity = linearVelocity.scale(0.9);  // Slow down the velocity
+        player.physicsImpostor.setLinearVelocity(linearVelocity);
+    }
 
     // Apply the reset angular velocity to the physics impostor
     player.physicsImpostor.setAngularVelocity(angularVelocity);
 }
+
 
 
 let inputMap = {};
