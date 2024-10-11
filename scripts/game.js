@@ -2,17 +2,16 @@ const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const scene = new BABYLON.Scene(engine);
 
-// Create the camera
-const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
-camera.attachControl(canvas, true);  // Attach mouse control
+// Enable physics engine with gravity
+scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
 
-// Lock the pointer to the canvas to allow proper first-person view control
-canvas.addEventListener("click", () => {
-    canvas.requestPointerLock();
-});
+// Setup camera and light
+const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
+camera.attachControl(canvas, true);
 
 const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 light.intensity = 0.7;
+
 
 // Player setup from player.js
 const player = createPlayer(scene);
