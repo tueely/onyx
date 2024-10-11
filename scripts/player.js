@@ -1,16 +1,18 @@
 function createPlayer(scene) {
-    const player = BABYLON.MeshBuilder.CreateBox("player", {height: 2, width: 1, depth: 1}, scene);
+    // Create a cylinder for the player, which is more stable
+    const player = BABYLON.MeshBuilder.CreateCylinder("player", {height: 2, diameter: 1}, scene);
     player.position = new BABYLON.Vector3(0, 5, 0);  // Start above platforms
 
-    // Setup player physics with lower restitution to prevent bouncing
-    player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.BoxImpostor, { 
+    // Setup player physics with lower restitution and using a cylinder impostor
+    player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.CylinderImpostor, { 
         mass: 1, 
         friction: 0.2, 
-        restitution: 0  // Reduce bounciness
+        restitution: 0 // No bounciness
     }, scene);
 
     return player;
 }
+
 
 function resetPlayerRotation(player) {
     // Get the current angular velocity
