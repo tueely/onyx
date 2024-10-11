@@ -1,7 +1,15 @@
-// Create the Babylon.js engine and scene
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const scene = new BABYLON.Scene(engine);
+
+// Create a UniversalCamera for first-person view
+const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
+camera.attachControl(canvas, true);  // Attach the mouse controls to the camera
+
+// Lock the pointer to the canvas to enable mouse movement
+canvas.addEventListener("click", () => {
+    canvas.requestPointerLock();
+});
 
 // Enable physics engine
 scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
