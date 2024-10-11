@@ -2,27 +2,14 @@ const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const scene = new BABYLON.Scene(engine);
 
-// Create a UniversalCamera for first-person view
+// Create the camera
 const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
-camera.attachControl(canvas, true);  // Attach the mouse controls to the camera
-camera.inputs.clear();  // Remove all default controls (including arrow keys)
+camera.attachControl(canvas, true);  // Attach mouse control
 
-// Lock the pointer to the canvas to enable mouse movement
+// Lock the pointer to the canvas to allow proper first-person view control
 canvas.addEventListener("click", () => {
     canvas.requestPointerLock();
 });
-
-// Enable physics engine
-scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
-
-
-// Only use WASD keys for movement
-camera.inputs.addKeyboard(); 
-camera.inputs.attached.keyboard.keysUp = [87];    // W
-camera.inputs.attached.keyboard.keysDown = [83];  // S
-camera.inputs.attached.keyboard.keysLeft = [65];  // A
-camera.inputs.attached.keyboard.keysRight = [68]; // D
-camera.inputs.attached.keyboard.preventDefault = true; // Prevent default browser behavior
 
 const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 light.intensity = 0.7;
