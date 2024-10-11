@@ -1,25 +1,27 @@
-// Game logic: setting up Babylon scene, infinite block generation
-
 // Create the Babylon.js engine and scene
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const scene = new BABYLON.Scene(engine);
 
-// Setup camera and lighting
+// Camera setup for first-person view (no arrow keys)
 const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
 camera.attachControl(canvas, true);
+camera.inputs.clear();  // Remove all default controls (including arrow keys)
+
+// Only use WASD keys for movement
+camera.inputs.addKeyboard(); 
+camera.inputs.attached.keyboard.keysUp = [87];    // W
+camera.inputs.attached.keyboard.keysDown = [83];  // S
+camera.inputs.attached.keyboard.keysLeft = [65];  // A
+camera.inputs.attached.keyboard.keysRight = [68]; // D
+camera.inputs.attached.keyboard.preventDefault = true; // Prevent default browser behavior
 
 const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 light.intensity = 0.7;
 
-// Call engine.resize() when the window is resized
-window.addEventListener("resize", function () {
-    engine.resize();
-});
-
 // Player setup from player.js
 const player = createPlayer(scene);
-camera.parent = player;
+camera.parent = player;  // Attach camera to player
 
 // Infinite platform generation from environment.js
 generatePlatforms(scene, player);
@@ -30,7 +32,7 @@ engine.runRenderLoop(function () {
 
     // Handle player input and movement from player.js
     updatePlayer(player);
-    
+
     // Check if player has fallen into the "lava"
     if (player.position.y < 0) {
         player.position = new BABYLON.Vector3(0, 5, 0);  // Reset player if they fall
@@ -40,4 +42,3 @@ engine.runRenderLoop(function () {
 window.addEventListener("resize", function () {
     engine.resize();
 });
-
