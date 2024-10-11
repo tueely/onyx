@@ -1,13 +1,13 @@
-    function createPlayer(scene) {
-    // Create a cylinder for the player, which is more stable
-    const player = BABYLON.MeshBuilder.CreateCylinder("player", {height: 2, diameter: 1}, scene);
+function createPlayer(scene) {
+    // Create a sphere for the player, which is more stable in physics
+    const player = BABYLON.MeshBuilder.CreateSphere("player", {diameter: 1.5}, scene);
     player.position = new BABYLON.Vector3(0, 5, 0);  // Start above platforms
 
-    // Setup player physics with lower restitution and using a cylinder impostor
-    player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.CylinderImpostor, { 
+    // Setup player physics with a sphere impostor
+    player.physicsImpostor = new BABYLON.PhysicsImpostor(player, BABYLON.PhysicsImpostor.SphereImpostor, { 
         mass: 1, 
         friction: 0.2, 
-        restitution: 0 // No bounciness
+        restitution: 0 // Lower the bounciness
     }, scene);
 
     return player;
