@@ -3,15 +3,17 @@ const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const scene = new BABYLON.Scene(engine);
 
+// Create the UniversalCamera for first-person view
 const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
 camera.attachControl(canvas, true);
 
-// Remove default inputs, including arrow keys
+// Disable arrow key inputs and other defaults, only WASD and Mouse
 camera.inputs.clear();
-
-// Re-enable only keyboard and mouse inputs (WASD for movement)
 camera.inputs.addKeyboard(); // WASD movement
-camera.inputs.addMouse(); // Mouse for looking around
+camera.inputs.addMouse();    // Mouse for looking around
+
+// Adjust mouse sensitivity for smoother camera control
+camera.inputs.attached.mouse.angularSensibility = 2000;  // Adjust as needed
 
 // Enable physics engine with gravity
 scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
@@ -19,10 +21,9 @@ scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin
 const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 light.intensity = 0.7;
 
-
 // Player setup from player.js
 const player = createPlayer(scene);
-camera.parent = player;  // Attach camera to player
+camera.parent = player;  // Attach camera to player for first-person POV
 
 // Infinite platform generation from environment.js
 generatePlatforms(scene, player);
@@ -32,11 +33,12 @@ canvas.addEventListener("click", () => {
     canvas.requestPointerLock();
 });
 
-// Mouse control event to handle pointer lock changes
 document.addEventListener('pointerlockchange', function() {
     if (document.pointerLockElement === canvas) {
+        camera.attachControl(canvas);  // Attach controls once pointer is locked
         console.log("Pointer is locked");
     } else {
+        camera.detachControl(canvas);  // Detach controls if pointer is not locked
         console.log("Pointer is unlocked");
     }
 });
@@ -59,8 +61,6 @@ engine.runRenderLoop(function () {
         player.position = new BABYLON.Vector3(0, 5, 0);  // Reset player if they fall
     }
 });
-
-
 
 window.addEventListener("resize", function () {
     engine.resize();
