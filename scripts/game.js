@@ -1,13 +1,20 @@
+// Setup camera
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const scene = new BABYLON.Scene(engine);
 
-// Enable physics engine with gravity
-scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
-
-// Setup camera and light
 const camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(0, 5, -10), scene);
 camera.attachControl(canvas, true);
+
+// Remove default inputs, including arrow keys
+camera.inputs.clear();
+
+// Re-enable only keyboard and mouse inputs (WASD for movement)
+camera.inputs.addKeyboard(); // WASD movement
+camera.inputs.addMouse(); // Mouse for looking around
+
+// Enable physics engine with gravity
+scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
 
 const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
 light.intensity = 0.7;
