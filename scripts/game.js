@@ -27,6 +27,19 @@ camera.parent = player;  // Attach camera to player
 // Infinite platform generation from environment.js
 generatePlatforms(scene, player);
 
+// Lock the pointer to the canvas to enable mouse control like a first-person game
+canvas.addEventListener("click", () => {
+    canvas.requestPointerLock();
+});
+
+// Mouse control event to handle pointer lock changes
+document.addEventListener('pointerlockchange', function() {
+    if (document.pointerLockElement === canvas) {
+        console.log("Pointer is locked");
+    } else {
+        console.log("Pointer is unlocked");
+    }
+});
 
 // Game loop
 engine.runRenderLoop(function () {
